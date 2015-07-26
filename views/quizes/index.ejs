@@ -1,4 +1,11 @@
 <center>
+<form method="get" action="/quizes?search=search">
+  Busqueda de preguntas:<br>
+  <input type="text" name="search" value="Texto a buscar" />
+  <input type="submit" value="Buscar">
+</form>
+<p></p>
+<br>
 <table>
 <% var i; for (i=0; i<quizes.length; i++){ %>
   <tr>
