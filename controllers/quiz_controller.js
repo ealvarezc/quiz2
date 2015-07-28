@@ -17,12 +17,12 @@ exports.index = function(req, res){
   if(req.query.search){
     var condicion = "%" + req.query.search.replace(/\s/g, "%") + "%";
     models.Quiz.findAll(
-      {where:["pregunta like ?", condicion]}
+      {where:["pregunta like ?", condicion], order:'tema DESC'}
     ).then(function(quizes){
       res.render('quizes/index.ejs', { quizes: quizes, errors: [] });
     }).catch(function(error){ next(error); })
   } else {
-    models.Quiz.findAll().then(
+    models.Quiz.findAll({order:'tema DESC'}).then(
       function(quizes){
         res.render('quizes/index.ejs', { quizes: quizes, errors: [] });
       }
@@ -58,7 +58,7 @@ exports.edit = function(req, res){
 // GET /quizes/new
 exports.new = function(req, res){
   var quiz = models.Quiz.build( //crea objeto quiz
-    { pregunta: "Pregunta", respuesta: "Respuesta" }
+    { pregunta: "Pregunta", respuesta: "Respuesta", tema: "otro" }
   );
 
   res.render('quizes/new', { quiz: quiz, errors: [] });
@@ -76,7 +76,7 @@ exports.create = function(req, res){
         res.render('quizes/new', { quiz: quiz, errors: err.errors });
       } else {
         // guarda en BD los campos pregunta y respuesta de quiz
-        quiz.save({ fields: ["pregunta", "respuesta"] }).then(function(){
+        quiz.save({ fields: ["pregunta", "respuesta", "tema"] }).then(function(){
           res.redirect('/quizes');
         })
       }   // redirecci'on HTTP (URL relativo) lista de preguntas
@@ -88,6 +88,7 @@ exports.create = function(req, res){
 exports.update = function(req, res){
   req.quiz.pregunta = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;
+  req.quiz.tema = req.body.quiz.tema;
 
   req.quiz
   .validate()
@@ -97,7 +98,7 @@ exports.update = function(req, res){
         res.render('quizes/edit', { quiz: req.quiz, errors: err.errors});
       } else {
         req.quiz     // save: guarda campos pregunta y respuesta en BD
-        .save({ fields: ["pregunta", "respuesta"] })
+        .save({ fields: ["pregunta", "respuesta", "tema"] })
         .then( function(){ res.redirect('/quizes'); } );
       }
     }

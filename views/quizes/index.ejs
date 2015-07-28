@@ -2,7 +2,13 @@
 <tr>
   <td>
     <table>
-    <% var i; for (i=0; i<quizes.length; i++){ %>
+    <% var i; var t=""; for (i=0; i<quizes.length; i++){ %>
+      <% if(t === quizes[i].tema){
+         } else { %>
+      <tr>
+        <td colspan="3"><% if(i>0){ %><br><% } %><%= quizes[i].tema.toUpperCase() %></td>
+      </tr>
+      <% } %>
       <tr>
         <td class="tablapregunta">
           <a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a>
@@ -18,7 +24,7 @@
           </form>
         </td>
       </tr>
-    <% } %>
+    <% t = quizes[i].tema; } %>
     </table>
   </td><td>
     <form method="get" action="/quizes?search=search">
