@@ -1,16 +1,21 @@
-<center>
-<form method="get" action="/quizes?search=search">
-  Busqueda de preguntas:<br>
-  <input type="text" name="search" value="Texto a buscar" />
-  <input type="submit" value="Buscar">
-</form>
-<p></p>
-<br>
 <table>
-<% var i; for (i=0; i<quizes.length; i++){ %>
-  <tr>
-    <td class="tablapregunta"><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
-  </tr>
-<% } %>
+<tr>
+  <td>
+    <table>
+    <% var i; for (i=0; i<quizes.length; i++){ %>
+      <tr>
+        <td class="tablapregunta"><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+      </tr>
+    <% } %>
+    </table>
+  </td><td>
+    <form method="get" action="/quizes?search=search">
+      Busqueda de preguntas:<br>
+      <input type="text" name="search" value="Texto a buscar" />
+      <input type="submit" value="Buscar">
+    </form>
+    <br>
+    <a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+  </td>
+</tr>
 </table>
-</center>
