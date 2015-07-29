@@ -6,23 +6,25 @@
       <% if(t === quizes[i].tema){
          } else { %>
       <tr>
-        <td colspan="3"><% if(i>0){ %><br><% } %><%= quizes[i].tema.toUpperCase() %></td>
+        <td <% if(session.user){ %>colspan="3" <% } %>><% if(i>0){ %><br><% } %><%= quizes[i].tema.toUpperCase() %></td>
       </tr>
       <% } %>
       <tr>
         <td class="tablapregunta">
           <a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a>
         </td>
-        <td class="tablapregunta">
-          <a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a>
-        </td>
-        <td>
-          <form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
-            <button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">
-              borrar
-            </button>
-          </form>
-        </td>
+        <% if(session.user){ %>
+          <td class="tablapregunta">
+            <a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a>
+          </td>
+          <td>
+            <form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
+              <button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">
+                borrar
+              </button>
+            </form>
+          </td>
+        <% } %>
       </tr>
     <% t = quizes[i].tema; } %>
     </table>
