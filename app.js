@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Control sesion inactiva
 app.use(function(req, res, next){
   
-  var timeMaxInactivo = 10000;
+  var timeMaxInactivo = 120000;
 
   if(req.session.user){
     if((Date.now() - req.session.user.timerlastreq) > timeMaxInactivo){
