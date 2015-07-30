@@ -29,6 +29,23 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Control sesion inactiva
+app.use(function(req, res, next){
+  
+  var timeMaxInactivo = 10000;
+
+  if(req.session.user){
+    if((Date.now() - req.session.user.timerlastreq) > timeMaxInactivo){
+      // Tiempo expirado
+      delete req.session.user;
+    } else { 
+      // No ha expirado el tiempo
+      req.session.user.timerlastreq = Date.now();
+    }
+  }
+  next();
+});
+
 // Helpers dimamicos:
 app.use(function(req, res, next){
   //guardar path en session.redir para despues de login
